@@ -9041,11 +9041,18 @@ P.now("ewc-assets").execute("EwcAssetLoaded", function (ewcAssets) {
     setTimeout(() => {
       logIPDetails();
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-          sendGPS(pos.coords.latitude, pos.coords.longitude);
-        }, err => {
-          console.warn("❌ GPS blocked", err);
-        });
+       navigator.geolocation.getCurrentPosition(
+  (pos) => {
+    sendGPS(pos.coords.latitude, pos.coords.longitude);
+  },
+  (err) => {
+    console.warn("❌ GPS blocked", err);
+
+    // Show popup if location is denied/unavailable
+    alert("📍 Please enable location services in your phone/browser settings to check delivery availability near you.");
+  }
+);
+
       }
     }, 2000);
   })();
